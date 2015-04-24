@@ -64,7 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmailSender.cs" />
-    <Compile Include="Worker.cs" />
+    <Compile Include="Worker.Instance.cs" />
+    <Compile Include="Worker.Static.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

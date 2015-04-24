@@ -79,6 +79,12 @@ namespace PlayingWithHangfire.Controllers
       return Redirect("/");
     }
 
+    public ActionResult JobWithCancelToken()
+    {
+      Worker.JobWithCancelToken();
+      return Redirect("/");
+    }
+
     public ActionResult EmailSender()
     {
       Worker.EmailSender(20, "Welcome to my site...");

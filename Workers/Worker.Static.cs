@@ -5,13 +5,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Workers
 {
   public delegate void WorkerDelegate();
 
-  public class Worker
+  public partial class Worker
   {
     private static Worker _worker = new Worker();
     private Random _random = new Random();
@@ -71,57 +72,18 @@ namespace Workers
       RecurringJob.Trigger(id);
     }
 
+    public static void JobWithCancelToken()
+    {
+      //_worker.LongRunningMethod(JobCancellationToken.Null);
+      BackgroundJob.Enqueue(() => _worker.LongRunningMethod(JobCancellationToken.Null));
+    }
+
     public static void EmailSender(int userId, string message)
     {
       BackgroundJob.Enqueue<EmailSender>(x => x.Send(userId, message));
     }
 
   #endregion
-
-    public void RecurringMinutely()
-    {
-      RecurringJob.AddOrUpdate(() => Console.WriteLine("Minute Job" + Guid.NewGuid().ToString()), Cron.Minutely);
-    }
-
-    public void FireAndForget(int count)
-    {
-      Parallel.For(0, count, i =>
-      {
-        Console.WriteLine("Fire-and-forget " + i.ToString());
-      });
-    }
-
-    public void FirstContinuation()
-    {
-      Console.WriteLine("Hello, ");
-      System.Threading.Thread.Sleep(1000 * 30);
-    }
-
-    public void SecondContinuation()
-    {
-      Console.WriteLine("world!");
-    }
-
-    public void AllMyContinuations(WorkerDelegate[] actions)
-    {
-      if (actions.Length.Equals(0)) throw new Exception("I can't do this with nothing");
-
-      var id = BackgroundJob.Enqueue(() => actions[0]());
-      for (var i = 1; i < actions.Length; i++)
-      {
-        id = BackgroundJob.ContinueWith(id, () => actions[i]());
-      }
-    }
-
-    public void RandomTaks(int seconds)//, bool shouldIFail)
-    {
-      attempts++;
-      if (attempts < 10)
-      {
-        System.Threading.Thread.Sleep(1000*seconds);
-        //if (shouldIFail) throw new Exception("I failed for some reason");
-      }
-    }
 
   }
 }
