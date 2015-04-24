@@ -11,6 +11,11 @@ namespace Workers
   public partial class Worker
   {
     #region Instance Methods
+    
+    // The following job won't be retried if it fails
+    // It will be logged
+    // and marked as a failure (you can set it to delete)
+    [AutomaticRetry(Attempts = 0, LogEvents = true, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
     public void RecurringMinutely()
     {
       RecurringJob.AddOrUpdate(() => Console.WriteLine("Minute Job" + Guid.NewGuid().ToString()), Cron.Minutely);
@@ -46,7 +51,7 @@ namespace Workers
       }
     }
 
-    public void RandomTaks(int seconds)//, bool shouldIFail)
+    public void RandomTask(int seconds)//, bool shouldIFail)
     {
       attempts++;
       if (attempts < 10)

@@ -57,7 +57,7 @@ namespace Workers
     {
       var count = _worker._random.Next(10, 20);
       //var fail = count < 15;
-      _worker.RandomTaks(count);
+      _worker.RandomTask(count);
       return count < 15;
     }
 

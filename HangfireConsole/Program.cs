@@ -15,16 +15,19 @@ namespace HangfireConsole
     static void Main(string[] args)
     {
       GlobalConfiguration.Configuration.UseSqlServerStorage(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Hangfire;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-      //LogProvider.SetCurrentLogProvider(new ColouredConsoleLogProvider());
-      //BackgroundJob.Enqueue(() => DoSomething());
+      LogProvider.SetCurrentLogProvider(new ColouredConsoleLogProvider());
 
-      //var server = new BackgroundJobServer(options);
-      //BackgroundJob.Enqueue(() => DoSomething());
-      //server.Dispose();
-
-      using (var server = new BackgroundJobServer())
+      var options = new BackgroundJobServerOptions
       {
-        BackgroundJob.Enqueue(() => DoSomething());
+        ServerName = "HangfireConsole-"+Environment.MachineName,
+      };
+
+      using (var server = new BackgroundJobServer(options))
+      {
+        var id = BackgroundJob.Enqueue(() => DoSomething());
+        id = BackgroundJob.ContinueWith(id, () => DoSomethingElse());
+        BackgroundJob.ContinueWith(id, () => DoSomethingElse(), JobContinuationOptions.OnAnyFinishedState);
+        
 
         Console.WriteLine("Server Started. Press any key to exit...");
         Console.ReadKey();
@@ -35,7 +38,12 @@ namespace HangfireConsole
     public static void DoSomething()
     {
       Console.WriteLine("I'm going to crash");
-      //throw new Exception("See, told ya!");
+      throw new Exception("See, told ya!");
+    }
+
+    public static void DoSomethingElse()
+    {
+      // invoke ---
     }
   }
 }

@@ -18,8 +18,9 @@ namespace PlayingWithHangfire
       //Use the application auto-start feature.
       //GlobalConfiguration.Configuration.UseSqlServerStorage(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Hangfire;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
       GlobalConfiguration.Configuration.UseSqlServerStorage("Hangfire");
+      GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 5 });
       app.UseHangfireDashboard();
-      app.UseHangfireServer();
+      //app.UseHangfireServer();
 
       //app.UseHangfire(config =>
       //{
