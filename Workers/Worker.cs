@@ -60,6 +60,21 @@ namespace Workers
       return count < 15;
     }
 
+    public static void ScheduleTask()
+    {
+      //RecurringJob.AddOrUpdate(Guid.NewGuid().ToString(), () => _worker.FireAndForget(10), "30 0 1-31/2 * *");
+      RecurringJob.AddOrUpdate(() => _worker.FireAndForget(10), "30 0 1-31/2 * *");
+    }
+    
+    public static void TriggerTask(string id)
+    {
+      RecurringJob.Trigger(id);
+    }
+
+    public static void EmailSender(int userId, string message)
+    {
+      BackgroundJob.Enqueue<EmailSender>(x => x.Send(userId, message));
+    }
 
   #endregion
 

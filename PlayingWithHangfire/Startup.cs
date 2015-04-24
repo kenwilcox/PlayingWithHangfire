@@ -1,6 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 using Hangfire;
+using Microsoft.Practices.Unity;
 
 [assembly: OwinStartupAttribute(typeof(PlayingWithHangfire.Startup))]
 
@@ -18,7 +19,12 @@ namespace PlayingWithHangfire
       GlobalConfiguration.Configuration.UseSqlServerStorage(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Hangfire;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
       app.UseHangfireDashboard();
       app.UseHangfireServer();
-
+      
+      app.UseHangfire(config =>
+      {
+        var container = new UnityContainer();
+        config.UseUnityActivator(container);
+      });
     }
   }
 }

@@ -9,7 +9,7 @@
 </div>*@
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <h2>Try out Hangfire</h2>
         <ul>
             <li>@Html.ActionLink("Fire And Forget", "FireAndForget", "Home")</li>
@@ -18,6 +18,13 @@
             <li>@Html.ActionLink("Continuations", "MyContinuations", "Home") - User Defined Action&lt;T&gt;</li>
             <li>@Html.ActionLink("I Fail Randomly", "#FailRandomly", "Home")</li>
             <li>@Html.ActionLink("Fire And Forget", "FireAndForgetDelay", "Home") - (With Delay)</li>
+            <li>@Html.ActionLink("Schedule Taks", "ScheduleTask", "Home") - (With Crontab - "30 0 1-31/2 * *" - Translated, every other day at midnight thirity)</li>
+            <li>@Html.ActionLink("Trigger Taks", "TriggerTask", "Home")</li>
+        </ul>
+
+        <h2>Dependencies</h2>
+        <ul>
+            <li>@Html.ActionLink("EmailSender", "EmailSender", "Home")</li>
         </ul>
         @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
     </div>

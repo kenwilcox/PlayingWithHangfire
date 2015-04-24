@@ -67,6 +67,24 @@ namespace PlayingWithHangfire.Controllers
       return Redirect("/");
     }
 
+    public ActionResult ScheduleTask()
+    {
+      Worker.ScheduleTask();
+      return Redirect("/");
+    }
+
+    public ActionResult TriggerTask()
+    {
+      Worker.TriggerTask("6547bbaf-6af3-4163-9306-a90caf200357");
+      return Redirect("/");
+    }
+
+    public ActionResult EmailSender()
+    {
+      Worker.EmailSender(20, "Welcome to my site...");
+      return Redirect("/");
+    }
+
     public static void DoFirstTask()
     {
       System.Threading.Thread.Sleep(1000 * 10);
