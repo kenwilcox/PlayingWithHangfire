@@ -13,12 +13,13 @@ namespace PlayingWithHangfire
     {
       ConfigureAuth(app);
 
-      //If you are processing your jobs inside an ASP.NET application, you should be warned about some setting that may prevent your scheduled jobs to be performed in-time. To avoid that behavour, perform the following steps:
-      //Disable Idle Timeout – set its value to 0.
-      //Use the application auto-start feature.
-      //GlobalConfiguration.Configuration.UseSqlServerStorage(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Hangfire;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-      GlobalConfiguration.Configuration.UseSqlServerStorage("Hangfire");
-      GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 5 });
+            //If you are processing your jobs inside an ASP.NET application, you should be warned about some setting that may prevent your scheduled jobs to be performed in-time. To avoid that behavour, perform the following steps:
+            //Disable Idle Timeout – set its value to 0.
+            //Use the application auto-start feature.
+            //GlobalConfiguration.Configuration.UseSqlServerStorage(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Hangfire;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            //GlobalConfiguration.Configuration.UseSqlServerStorage("Hangfire");
+            GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
+            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 5 });
       app.UseHangfireDashboard();
       //app.UseHangfireServer();
 

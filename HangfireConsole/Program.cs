@@ -27,7 +27,7 @@ namespace HangfireConsole
         var id = BackgroundJob.Enqueue(() => DoSomething());
         id = BackgroundJob.ContinueWith(id, () => DoSomethingElse());
         BackgroundJob.ContinueWith(id, () => DoSomethingElse(), JobContinuationOptions.OnAnyFinishedState);
-        
+
 
         Console.WriteLine("Server Started. Press any key to exit...");
         Console.ReadKey();
